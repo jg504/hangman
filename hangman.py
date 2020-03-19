@@ -104,48 +104,71 @@ def checkFinished(display):
 
 # __main__
 while(True):
+
+    # choice shall determine whether the player wants to play the game.
     choice = input("\nInput Yes to guess a word. Input No to exit. ").lower()
     
+    # Checks whether the player wants to continue.
     if(choice == "yes"):
 
         print("\nYou have chosen to guess a new word.")
 
+        # actualWord shall store the randomly selected word to be guessed.
         actualWord = selectWord().lower()
 
+        # characters shall store the characters of randomly selected word to be guessed.
         characters = list(actualWord)
         
+        # display shall store the characters that have been guessed in the form of a list.
+        # The characters that are yet to be guessed shall be stored as '*'.
         display = ['*']*len(characters)
 
+        # guessesLeft shall store the number of incorrect guesses left.
         guessesLeft = guessesLeftInput()
 
+        # guessed shall store the guessed characters as a string to be displayed for the player.
         guessed = joinList(display)
         print("\nThe word is " + guessed + "\nNumber of incorrect guesses left are: " + str(guessesLeft) + "\n")
 
+        # guess shall store the player's guess.
         guess = guessInput(display)
+
+        # The while loop shall run till either the guesses are finished or the word has been guessed correctly.
         while(guessesLeft > 0):
+
+            # incorrectGuess shall be used to decrement the number of incorrect guesses left.
             incorrectGuess = checkGuess(guess, characters, display)
             
+            # Checks whether the player's guess was incorrect.
+            # If it was then decrements guessesLeft.
             if(incorrectGuess):
                 guessesLeft -= 1
             
+            # guessed shall store the guessed characters as a string to be displayed for the player.
             guessed = joinList(display)
 
+            # finished shall check whether the entire word has been guessed correctly.
             finished = checkFinished(display)
 
+            # If the player has guessed the entire word correctly then (s)he wins.
             if(finished):
                 print("\nCongratulations! You guessed the word. The word is " + guessed)
                 break
 
+            # If the player has elapsed the number of incorrect guesses allowed then (s)he loses.
             elif((guessesLeft == 0)):
                 print("\nGuesses elapsed. Better luck next time!")
 
+            # If guesses are still left and the word is yet to be correctly guessed then the flow of control is transferred back to the while loop.
             else:
                 print("\nThe word is " + guessed + "\nNumber of incorrect guesses left are: " + str(guessesLeft) + "\n")
                 guess = guessInput(display)
     
+    # Checks whether the player wants to quit.
     elif(choice == "no"):
         print("\nThank you for playing.\n")
         break
-
+    
+    # Invalid choice.
     else:
         print("\nInvalid choice. Try again.")
